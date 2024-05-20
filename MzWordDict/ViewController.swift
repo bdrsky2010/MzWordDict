@@ -17,10 +17,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var textFieldCoverView: UIView!
     @IBOutlet weak var wordSearchTextField: UITextField!
     @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var firstRandomWordButton: UIButton!
-    @IBOutlet weak var secondRandomWordButton: UIButton!
-    @IBOutlet weak var thirdRandomWordButton: UIButton!
-    @IBOutlet weak var fourthRandomWordButton: UIButton!
+    
+    @IBOutlet var randomButtons: [UIButton]!
+    
     @IBOutlet weak var descriptionImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
@@ -49,7 +48,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        UIConfig()
+    }
+    
+    private func UIConfig() {
         textFieldConfig()
         randomWordsButtonConfig()
         descriptionConfig()
@@ -72,10 +74,9 @@ class ViewController: UIViewController {
             self.words.shuffle()
         }
         
-        self.firstRandomWordButton.setTitle(words[0].word, for: .normal)
-        self.secondRandomWordButton.setTitle(words[1].word, for: .normal)
-        self.thirdRandomWordButton.setTitle(words[2].word, for: .normal)
-        self.fourthRandomWordButton.setTitle(words[3].word, for: .normal)
+        for i in 0...3 {
+            self.randomButtons[i].setTitle(words[i].word, for: .normal)
+        }
     }
     
     private func randomWordsButtonConfig() {
@@ -85,29 +86,15 @@ class ViewController: UIViewController {
         let borderWidth: CGFloat = 1
         let borderColor: CGColor = UIColor.black.cgColor
         
-        self.firstRandomWordButton.titleLabel?.font = .systemFont(ofSize: fontSize)
-        self.firstRandomWordButton.tintColor = tintColor
-        self.firstRandomWordButton.layer.cornerRadius = cornerRadius
-        self.firstRandomWordButton.layer.borderWidth = borderWidth
-        self.firstRandomWordButton.layer.borderColor = borderColor
-        
-        self.secondRandomWordButton.titleLabel?.font = .systemFont(ofSize: fontSize)
-        self.secondRandomWordButton.tintColor = tintColor
-        self.secondRandomWordButton.layer.cornerRadius = cornerRadius
-        self.secondRandomWordButton.layer.borderWidth = borderWidth
-        self.secondRandomWordButton.layer.borderColor = borderColor
-        
-        self.thirdRandomWordButton.titleLabel?.font = .systemFont(ofSize: fontSize)
-        self.thirdRandomWordButton.tintColor = tintColor
-        self.thirdRandomWordButton.layer.cornerRadius = cornerRadius
-        self.thirdRandomWordButton.layer.borderWidth = borderWidth
-        self.thirdRandomWordButton.layer.borderColor = borderColor
-        
-        self.fourthRandomWordButton.titleLabel?.font = .systemFont(ofSize: fontSize)
-        self.fourthRandomWordButton.tintColor = tintColor
-        self.fourthRandomWordButton.layer.cornerRadius = cornerRadius
-        self.fourthRandomWordButton.layer.borderWidth = borderWidth
-        self.fourthRandomWordButton.layer.borderColor = borderColor
+        for i in 0...3 {
+            let button = self.randomButtons[i]
+            
+            button.titleLabel?.font = .systemFont(ofSize: fontSize)
+            button.tintColor = tintColor
+            button.layer.cornerRadius = cornerRadius
+            button.layer.borderWidth = borderWidth
+            button.layer.borderColor = borderColor
+        }
         
         shuffledWords()
     }
@@ -143,7 +130,7 @@ class ViewController: UIViewController {
     
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         search()
-        self.wordSearchTextField.endEditing(true)
+        view.endEditing(true)
         shuffledWords()
     }
     
@@ -157,6 +144,10 @@ class ViewController: UIViewController {
                 return
             }
         }
+    }
+    
+    @IBAction func bacgroundTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
 
